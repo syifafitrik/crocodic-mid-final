@@ -10,7 +10,7 @@
 window.addEventListener('DOMContentLoaded', event => {
 
     // Toggle the side navigation
-    const sidebarToggle = document.body.querySelector('#sidebarToggle');
+    const sidebarToggle = document.body.querySelector('body:not(.nosidebar) #sidebarToggle');
     if (sidebarToggle) {
         // Uncomment Below to persist sidebar toggle between refreshes
         // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
@@ -23,4 +23,17 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
+    // Toggle the side navigation
+    const nosidebarToggle = document.body.querySelector('body.nosidebar #sidebarToggle');
+    if (nosidebarToggle) {
+        // Uncomment Below to persist sidebar toggle between refreshes
+        // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+        //     document.body.classList.toggle('sb-sidenav-toggled');
+        // }
+        nosidebarToggle.addEventListener('click', event => {
+            event.preventDefault();
+            document.body.classList.toggle('sb-sidenav-toggled');
+            localStorage.setItem('sb|sidebar-toggle', true);
+        });
+    }
 });

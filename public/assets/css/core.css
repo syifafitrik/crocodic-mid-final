@@ -29,6 +29,30 @@
     font-size: var(--custom-font-size) !important;
 }
 
+.btn-xs {
+    padding: 0.15rem 0.35rem;
+    font-size: 0.75rem;
+    border-radius: 0.15rem;
+}
+
+.btn-special-dark {
+    color: #fff;
+    background-color: #051e38;
+    border-color: #051e38;
+}
+
+.btn-special-dark:hover {
+    color: #fff;
+    background-color: #093666;
+    border-color: #093666;
+}
+
+.btn-special-dark.active {
+    color: #fff;
+    background-color: #041324;
+    border-color: #041324;
+}
+
 .mh-3px {
     max-height: 3px;
 }
@@ -781,12 +805,13 @@ body.nosidebar .sb-topnav {
     opacity: 0.2 !important;
 }
 
-body.sb-sidenav-toggled .sidebar-backdrop {
+body.nosidebar.sb-sidenav-toggled .sidebar-backdrop {
     display: block !important;
     z-index: 1039;
 }
 
-body:not(.sb-sidenav-toggled) .sidebar-backdrop {
+body:not(.nosidebar) .sidebar-backdrop,
+body.nosidebar:not(.sb-sidenav-toggled) .sidebar-backdrop {
     display: none !important;
 }
 
@@ -813,12 +838,13 @@ body:not(.sb-sidenav-toggled) .sidebar-backdrop {
         padding-inline-start: 250px;
     }
 
-    body.sb-sidenav-toggled .sidebar-backdrop {
+    body.nosidebar.sb-sidenav-toggled .sidebar-backdrop {
         display: none !important;
     }
 
-    body:not(.sb-sidenav-toggled) .sidebar-backdrop {
-        display: none !important;
+    body.nosidebar:not(.sb-sidenav-toggled) .sidebar-backdrop {
+        display: block !important;
+        z-index: 1039;
     }
 }
 
@@ -830,12 +856,7 @@ body:not(.sb-sidenav-toggled) .sidebar-backdrop {
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
     padding-left: 250px;
-    top: 56px;
-}
-
-.sb-nav-fixed #layoutSidenav #layoutSidenav_content {
-    padding-left: 250px;
-    top: 56px;
+    top: 80px;
 }
 
 .sb-topnav .navbar-brand {
@@ -857,6 +878,113 @@ body:not(.sb-sidenav-toggled) .sidebar-backdrop {
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav {
     padding-top: 0px !important;
+}
+
+/* User Menu */
+.navbar-nav>.user-menu>.nav-link::after {
+    content: none;
+}
+
+.navbar-nav>.user-menu>.dropdown-menu {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    width: 280px;
+    padding: 0;
+}
+
+.navbar-nav>.user-menu>.dropdown-menu,
+.navbar-nav>.user-menu>.dropdown-menu>.user-body {
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header {
+    min-height: 175px;
+    padding: 10px;
+    text-align: center;
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header>img {
+    z-index: 5;
+    width: 90px;
+    height: 90px;
+    border: 3px solid;
+    border-color: transparent;
+    border-color: var(--bs-border-color-translucent);
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header>p {
+    z-index: 5;
+    margin-top: 10px;
+    font-size: 17px;
+    word-wrap: break-word;
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header>p>small,
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header>p>.small {
+    display: block;
+    font-size: 12px;
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>.user-body {
+    padding: 15px;
+    border-top: 1px solid var(--bs-border-color);
+    border-bottom: 1px solid var(--bs-border-color-translucent);
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>.user-body::after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>.user-body a {
+    text-decoration: none;
+}
+
+@media (min-width: 576px) {
+    .navbar-nav>.user-menu>.dropdown-menu>.user-body a {
+        color: var(--bs-body-color) !important;
+        background-color: var(--bs-body-bg) !important;
+    }
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>.user-footer {
+    padding: 10px;
+    background-color: var(--bs-light-bg);
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>.user-footer::after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>.user-footer .btn-default {
+    color: var(--bs-body-color);
+}
+
+@media (min-width: 576px) {
+    .navbar-nav>.user-menu>.dropdown-menu>.user-footer .btn-default:hover {
+        background-color: var(--bs-body-bg);
+    }
+}
+
+.navbar-nav>.user-menu .user-image {
+    float: left;
+    width: 2rem;
+    height: 2rem;
+    margin-top: -2px;
+    border-radius: 50%;
+}
+
+@media (min-width: 576px) {
+    .navbar-nav>.user-menu .user-image {
+        float: none;
+        margin-top: -8px;
+        margin-right: 0.4rem;
+        line-height: 10px;
+    }
 }
 
 /* Datatable */

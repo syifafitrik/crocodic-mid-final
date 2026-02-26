@@ -7,3 +7,10 @@
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset('assets/js/core.js') }}"></script>
 <script src="{{ asset('assets/js/core-helper.js') }}"></script>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>

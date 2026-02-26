@@ -164,6 +164,22 @@ let toastr = new Object({
     },
 });
 
+function date2str(x, y) {
+    var z = {
+        M: x.getMonth() + 1,
+        d: x.getDate(),
+        h: x.getHours(),
+        m: x.getMinutes(),
+        s: x.getSeconds()
+    };
+    y = y.replace(/(M+|d+|h+|m+|s+)/g, function (v) {
+        return ((v.length > 1 ? "0" : "") + z[v.slice(-1)]).slice(-2)
+    });
+
+    return y.replace(/(y+)/g, function (v) {
+        return x.getFullYear().toString().slice(-v.length)
+    });
+}
 
 // number converter
 let separator_thousand = ".";
@@ -171,6 +187,10 @@ let separator_decimal = ",";
 
 function thousandDivider(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function thousandDivider2(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function thousand2number(x) {
@@ -219,4 +239,13 @@ function jsonPropsLowerCase(jsonData) {
     }
 
     return jd;
+}
+
+// Filtering object value yang memiliki criteria (array filter php)
+function findInObject(object, criteria) {
+    return object.filter(function (obj) {
+        return Object.keys(criteria).every(function (c) {
+            return obj[c] == criteria[c];
+        });
+    });
 }

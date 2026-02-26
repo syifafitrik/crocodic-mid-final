@@ -10,8 +10,10 @@ class AdminAuth extends Authenticate
 {
     protected function redirectTo(Request $request)
     {
-        if (Auth::user())
+        if (Auth::user() && Auth::user()->role == 'ADMIN')
             return route('admin.dashboard');
+        else if (Auth::user())
+            return route('dashboard');
 
         return route('admin.login');
     }

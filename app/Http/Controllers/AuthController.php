@@ -66,15 +66,6 @@ class AuthController extends Controller
         ]);
     }
 
-    public function admin_logout()
-    {
-        if (Auth::user()) {
-            Auth::logout();
-        }
-
-        return route('admin.login');
-    }
-
     public function user_login()
     {
         $credential = [
@@ -117,12 +108,16 @@ class AuthController extends Controller
         ]);
     }
 
-    public function user_logout()
+    public function logout()
     {
-        if (Auth::user()) {
-            Auth::logout();
-        }
+        $link = null;
+        if (Auth::user()->role == "ADMIN")
+            $link = route('admin.login');
+        else $link = route('login');
 
-        return route('admin.login');
+        if (Auth::user())
+            Auth::logout();
+
+        return $link;
     }
 }
