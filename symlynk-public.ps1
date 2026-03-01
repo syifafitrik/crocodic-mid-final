@@ -1,0 +1,1 @@
+New-Item -ItemType SymbolicLink -Path "./storage/app/public" -Target "./public"
