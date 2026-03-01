@@ -101,7 +101,7 @@
                     </div>
                 </div>
 
-                @if (empty($game_list))
+                @if ($game_list->count() == 0)
                     <div class="row mt-5">
                         <div class="col-4 mx-auto">
                             <div class="card card-game rounded-4 h-100 shadow-md">
