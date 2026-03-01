@@ -11,10 +11,10 @@ class AdminAuth extends Authenticate
     protected function redirectTo(Request $request)
     {
         if (Auth::user() && Auth::user()->role == 'ADMIN')
-            return route('admin.dashboard.index');
+            return redirect(route('admin.dashboard.index'));
         else if (Auth::user())
-            return route('dashboard');
+            return redirect(route('home'));
 
-        return route('admin.login');
+        return redirect(route('admin.login'));
     }
 }

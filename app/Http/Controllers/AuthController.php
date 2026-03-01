@@ -11,7 +11,7 @@ class AuthController extends Controller
     public function index_admin()
     {
         if (Auth::user())
-            return route('admin.dashboard.index');
+            return redirect(route('admin.dashboard.index'));
 
         return view('pages.admin.login');
     }
@@ -19,14 +19,14 @@ class AuthController extends Controller
     public function index_user()
     {
         if (Auth::user())
-            return route('home');
+            return redirect(route('home'));
 
         return view('pages.user.login');
     }
 
     public function register(){
         if (Auth::user())
-            return route('home');
+            return redirect(route('home'));
 
         return view('pages.user.register');
     }

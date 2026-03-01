@@ -1,0 +1,1 @@
+mklink /D "./storage/app/public" "./public"
