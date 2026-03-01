@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('data_payment', function (Blueprint $table) {
             $table->id();
             $table->integer('customer_id');
+            $table->string('tanggal', 100);
             $table->integer('voucher_id');
-            $table->decimal('voucher_value', 38, 3)->default(0);
+            $table->decimal('voucher_value', 38, 2)->default(0);
+            $table->string('voucher_code');
             $table->integer('payment_id');
-            $table->decimal('payment_amount', 38, 3)->default(0);
+            $table->decimal('payment_amount', 38, 2)->default(0);
+            $table->string('payment_link')->nullable();
             $table->integer('user_id');
             $table->integer('status')->default(0); // 0 = WAITING | 1 = COMPLETED | 2 = CANCEL 
             $table->timestamp('created_at')->useCurrent();

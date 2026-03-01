@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class MasterGame extends Model
@@ -16,7 +18,26 @@ class MasterGame extends Model
         'description',
         'image',
         'user_id',
+        'is_active',
         'created_at',
         'updated_at',
     ];
+
+    protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => Carbon::parse($value)
+                ->timezone('Asia/Jakarta')
+                ->format('d F Y H:i:s'),
+        );
+    }
+
+    protected function updatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => Carbon::parse($value)
+                ->timezone('Asia/Jakarta')
+                ->format('d F Y H:i:s'),
+        );
+    }
 }

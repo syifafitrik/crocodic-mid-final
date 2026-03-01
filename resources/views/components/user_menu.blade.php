@@ -22,11 +22,11 @@
                 <div class="mt-3">
                     @if (auth()->user())
                         <div class="mb-1 fs-5 fw-semibold">{{ auth()->user()->name }}</div>
-                        <div><small>{{ auth()->user()->email }}</small></div>
+                        <div class="mb-1"><small>{{ auth()->user()->email }}</small></div>
                         <div><small class="badge bg-success">{{ auth()->user()->role }}</small></div>
                     @else
                         <div class="mb-1 fs-5 fw-semibold">Guest</div>
-                        <div><small>Silakan login terlebih dahulu</small></div>
+                        <div class="mb-1"><small>Silakan login terlebih dahulu</small></div>
                         <div><small class="badge bg-secondary">Guest</small></div>
                     @endif
                 </div>
@@ -40,7 +40,7 @@
                                 Logout
                             </a>
                         @else
-                            <a href="{{ route('logout') }}" class="btn btn-sm btn-success">
+                            <a href="{{ route('login') }}" class="btn btn-sm btn-success">
                                 <i class="fa-solid fa-right-to-bracket"></i>
                                 Login
                             </a>

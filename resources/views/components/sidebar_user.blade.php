@@ -12,13 +12,13 @@
         <div class="sb-sidenav-menu-heading">
             Transaksi
         </div>
-        <a class="nav-link @if (isset($current_page) && $current_page == 'user_purchase') active @endif" href="#" type="button">
+        <a class="nav-link @if (isset($current_page) && $current_page == 'user_payment') active @endif" href="{{ route('user.payment.index') }}" type="button">
             <div class="sb-nav-link-icon">
                 <i class="fa-solid fa-receipt"></i>
             </div>
             Pembelian Saya
         </a>
-        <a class="nav-link @if (isset($current_page) && $current_page == 'user_history') active @endif" href="#" type="button">
+        <a class="nav-link @if (isset($current_page) && $current_page == 'user_history') active @endif" href="{{ route('user.history.index') }}" type="button">
             <div class="sb-nav-link-icon">
                 <i class="fa-solid fa-clock"></i>
             </div>
@@ -28,7 +28,7 @@
         <div class="sb-sidenav-menu-heading">
             Lain-Lain
         </div>
-        <a class="nav-link @if (isset($current_page) && $current_page == 'user_profile') active @endif" href="#" type="button">
+        <a class="nav-link @if (isset($current_page) && $current_page == 'user_profile') active @endif" href="{{ route('user.profile.index') }}" type="button">
             <div class="sb-nav-link-icon">
                 <i class="fa-solid fa-user"></i>
             </div>

@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+body {
+    font-family: 'Inter', sans-serif;
+}
+
 :root {
     --custom-font-size: unset;
 }
@@ -33,24 +37,6 @@
     padding: 0.15rem 0.35rem;
     font-size: 0.75rem;
     border-radius: 0.15rem;
-}
-
-.btn-special-dark {
-    color: #fff;
-    background-color: #051e38;
-    border-color: #051e38;
-}
-
-.btn-special-dark:hover {
-    color: #fff;
-    background-color: #093666;
-    border-color: #093666;
-}
-
-.btn-special-dark.active {
-    color: #fff;
-    background-color: #041324;
-    border-color: #041324;
 }
 
 .mh-3px {
@@ -992,6 +978,10 @@ body.nosidebar:not(.sb-sidenav-toggled) .sidebar-backdrop {
 .dataTable-table> :not(:first-child) {
     border-top-width: 0px;
     border-top-color: inherit;
+}
+
+ul.pagination > li.dt-paging-button {
+    padding: 0 !important;
 }
 
 /* Select 2 */

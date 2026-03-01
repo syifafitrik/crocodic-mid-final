@@ -194,7 +194,16 @@ function thousandDivider2(x) {
 }
 
 function thousand2number(x) {
-    return x.replace(/[^0-9]/gi, '');
+    return x.toString().replace(/[^0-9]/gi, '');
+}
+
+function thousand2float(x) {
+    return parseFloat(x.toString().replaceAll('.', '').replaceAll(',', '.'));
+}
+
+function float2thousand(x) {
+    // input type float
+    return thousandFormatter((x.toString().replaceAll('.', ',')));
 }
 
 function thousandFormatter(numbers) {
@@ -213,7 +222,6 @@ function thousandFormatter(numbers) {
 
     return x;
 }
-
 
 // string helper
 function capitalizeFirstLetter(str, lower = false) {

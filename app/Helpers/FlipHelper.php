@@ -64,7 +64,7 @@ class FlipHelper
                 'title' => $title,
                 'type' => 'SINGLE',
                 'amount' => $amount,
-                'expired_date' => now()->addHour(2)->format('YYYY-MM-DD HH:mm'),
+                'expired_date' => now()->addHour(2)->format('Y-m-d H:i'),
                 'is_address_required' => 0,
                 'is_phone_number_required' => 0,
                 'step' => 1
@@ -94,7 +94,7 @@ class FlipHelper
                 'title' => $title,
                 'type' => 'SINGLE',
                 'amount' => $amount,
-                'expired_date' => now()->addHour(2)->format('YYYY-MM-DD HH:mm'),
+                'expired_date' => now()->addHour(2)->format('Y-m-d H:i'),
                 'is_address_required' => 0,
                 'is_phone_number_required' => 0,
                 'status' => $status,

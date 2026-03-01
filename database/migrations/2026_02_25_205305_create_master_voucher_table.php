@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->integer('game_id');
             $table->string('voucher_title', 200);
-            $table->decimal('voucher_value', 38, 3)->default(0);
-            $table->decimal('voucher_price', 38, 3)->default(0);
+            $table->decimal('voucher_value', 38, 2)->default(0);
+            $table->decimal('voucher_price', 38, 2)->default(0);
             $table->integer('user_id');
+            $table->integer('is_hot', 1)->default(0);
+            $table->integer('is_active')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

@@ -1,17 +1,21 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\MasterGame;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class MasterGameController extends Controller
 {
-    public function index(){
+    public function index()
+    {
+        $pagetitle = 'Admin Top Up - Master Game';
         $current_page = 'master_game';
-        // return view(, compact('current_page'));
+        return view('pages.admin.master_game', compact('pagetitle', 'current_page'));
     }
 
     public function list()
@@ -19,7 +23,7 @@ class MasterGameController extends Controller
         return response()->json([
             'status'  => 'S',
             'message' => 'Berhasil mendapatkan data!',
-            'data'    => MasterGame::all(),
+            'data'    => MasterGame::where('is_active', '=', '1')->get(),
         ]);
     }
 
@@ -28,60 +32,46 @@ class MasterGameController extends Controller
         $validation = Validator::make(request()->all(), [
             'title' => 'required|max:200',
             'description' => 'required',
-            'image' => 'image',
-        ], [
-            'title.required' => 'Title tidak boleh kosong!',
-            'title.max' => 'Title terlalu panjang!',
-            'description.required' => 'Deskripsi tidak boleh kosong!',
-            'image.image' => 'File bukan berupa gambar!',
-        ]);
+            'image' => 'sometimes|nullable|image',
+        ], $this->validation_rules());
 
         if ($validation->fails()) {
             return response()->json([
                 'status'  => 'E',
                 'message' => $validation->errors()->first(),
             ]);
-        }    
+        }
 
         $data_title = request()->post('title');
-        $data_slug = Str::slug($data_title);
+        $data_slug = Str::slug(trim($data_title));
         $data_description = request()->post('description');
         $data_image = request()->file('image');
-        // if (! empty($data_image) && substr($data_image->getMimeType(), 0, 5) != 'image') {
-        //     return response()->json([
-        //         'status'  => 'E',
-        //         'message' => 'File bukan berupa gambar!',
-        //     ]);
-        // }
 
         try {
-            $insert = [
-                'user_id'     => request()->user()->id,
-                'title'       => $data_title,
-                'slug'        => $data_slug,
-                'description' => $data_description,
+            $data = [
+                'user_id' => request()->user()->id,
+                'title' => trim($data_title),
+                'slug' => $data_slug,
+                'description' => trim($data_description),
+                'is_active' => 1,
             ];
 
             if (! empty($data_image)) {
-                $schema   = request()->isSecure() ? "https://" : "http://";
                 $filename = "image_" . time() . rand(100, 999) . "." . $data_image->extension();
-                $image    = url('assets/uploads') . '/' . $filename;
+                $image = url('assets/uploads') . '/' . $filename;
 
-                if (! Storage::exists('app/public/assets/uploads/')) {
+                if (!Storage::exists('app/public/assets/uploads/'))
                     Storage::makeDirectory('app/public/assets/uploads/');
-                }
 
                 $data_image->move(storage_path('app/public/assets/uploads/'), $filename);
-
-                $insert['image'] = $image;
+                $data['image'] = $image;
             }
 
-            $result = MasterGame::create($insert);
+            $result = MasterGame::create($data);
 
             return response()->json([
                 'status'  => 'S',
-                'message' => 'Berhasil membuat data!',
-                'data'    => $result,
+                'message' => 'Berhasil menambah data!',
             ]);
         } catch (\Exception $ex) {
             return response()->json([
@@ -97,70 +87,57 @@ class MasterGameController extends Controller
             'id' => 'required',
             'title' => 'required|max:200',
             'description' => 'required',
-            'image' => 'image',
-        ], [
-            'id.required' => 'Data tidak ditemukan!',
-            'title.required' => 'Title tidak boleh kosong!',
-            'title.max' => 'Title terlalu panjang!',
-            'description.required' => 'Deskripsi tidak boleh kosong!',
-            'image.image' => 'File bukan berupa gambar!',
-        ]);
+            'image' => 'sometimes|nullable|image',
+        ], $this->validation_rules());
 
         if ($validation->fails()) {
             return response()->json([
                 'status'  => 'E',
                 'message' => $validation->errors()->first(),
             ]);
-        }    
+        }
 
         $data_id = request()->post('id');
         $data_title = request()->post('title');
-        $data_slug = Str::slug($data_title);
+        $data_slug = Str::slug(trim($data_title));
         $data_description = request()->post('description');
         $data_image = request()->file('image');
-        // if (! empty($data_image) && substr($data_image->getMimeType(), 0, 5) != 'image') {
-        //     return response()->json([
-        //         'status'  => 'E',
-        //         'message' => 'File bukan berupa gambar!',
-        //     ]);
-        // }
 
         try {
-            $blogs = MasterGame::find($data_id) ?? null;
-            if ($blogs == null) {
+            // cek game ada atau tidak
+            $cek = MasterGame::where('is_active', '=', 1)
+                ->where('id', '=', $data_id)->first() ?? null;
+            if ($cek == null)
                 return response()->json([
                     'status'  => 'E',
                     'message' => 'Data tidak ditemukan!',
                 ]);
-            }
 
-            $update = [
-                'user_id'     => request()->user()->id,
-                'title'       => $data_title,
-                'slug'        => $data_slug,
-                'description' => $data_description,
+            $data = [
+                'title' => trim($data_title),
+                'slug' => $data_slug,
+                'description' => trim($data_description),
+                'user_id' => Auth::user()->id,
+
+                'updated_at' => now(),
             ];
 
-            if (! empty($data_image)) {
-                $schema   = request()->isSecure() ? "https://" : "http://";
+            if (!empty($data_image)) {
                 $filename = "image_" . time() . rand(100, 999) . "." . $data_image->extension();
-                $image    = $schema . url('assets/uploads') . '/' . $filename;
+                $image = url('assets/uploads') . '/' . $filename;
 
-                if (! Storage::exists('app/public/assets/uploads/')) {
+                if (!Storage::exists('app/public/assets/uploads/'))
                     Storage::makeDirectory('app/public/assets/uploads/');
-                }
 
                 $data_image->move(storage_path('app/public/assets/uploads/'), $filename);
-
-                $update['image'] = $image;
+                $data['image'] = $image;
             }
 
-            $blogs->update($update);
+            $update = MasterGame::find($data_id)->update($data);
 
             return response()->json([
                 'status'  => 'S',
                 'message' => 'Berhasil mengubah data!',
-                'data'    => MasterGame::find($data_id),
             ]);
         } catch (\Exception $ex) {
             return response()->json([
@@ -174,9 +151,7 @@ class MasterGameController extends Controller
     {
         $validation = Validator::make(request()->all(), [
             'id' => 'required',
-        ], [
-            'id.required' => 'Data tidak ditemukan!',
-        ]);
+        ], $this->validation_rules());
 
         if ($validation->fails()) {
             return response()->json([
@@ -185,21 +160,52 @@ class MasterGameController extends Controller
             ]);
         }
 
-        $id = request()->post('id');
-
-        $data = MasterGame::find($id) ?? null;
-        if ($data == null) {
+        if ($validation->fails()) {
             return response()->json([
                 'status'  => 'E',
-                'message' => 'Data tidak ditemukan!',
+                'message' => $validation->errors()->first(),
             ]);
         }
 
-        $data->delete();
-        return response()->json([
-            'status'  => 'S',
-            'message' => 'Data berhasil dihapus!',
-            'data'    => MasterGame::all(),
-        ]);
+        $data_id = request()->post('id');
+
+        try {
+            $data = MasterGame::where('is_active', '=', 1)
+                ->where('id', '=', $data_id)->first() ?? null;
+            if ($data == null) {
+                return response()->json([
+                    'status'  => 'E',
+                    'message' => 'Data tidak ditemukan!',
+                ]);
+            }
+
+            $delete = [
+                'is_active' => 0,
+                'updated_at' => now(),
+            ];
+
+            $data->update($delete);
+            return response()->json([
+                'status'  => 'S',
+                'message' => 'Data berhasil dihapus!',
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'status'  => 'E',
+                'message' => 'Terjadi kesalahan! Error: ' . $ex->getMessage(),
+            ]);
+        }
+    }
+
+
+    private function validation_rules()
+    {
+        return [
+            'id.required' => 'Data tidak ditemukan!',
+            'title.required' => 'Judul game tidak boleh kosong!',
+            'title.max' => 'Judul terlalu panjang!',
+            'description.required' => 'Deskripsi tidak boleh kosong!',
+            'image.image' => 'File tidak bukan berupa gambar!',
+        ];
     }
 }

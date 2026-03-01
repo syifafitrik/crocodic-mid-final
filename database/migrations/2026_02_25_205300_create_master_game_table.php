@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('image', 255)->nullable();
             $table->integer('user_id');
+            $table->integer('is_active')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
